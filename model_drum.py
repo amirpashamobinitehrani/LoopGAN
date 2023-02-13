@@ -8,10 +8,8 @@ from torch import nn
 from torch.nn import functional as F
 from torch.autograd import Function
 
-#from torch.nn import LeakyReLU
-#from torch.nn.functional import leaky_relu
-
 from op import FusedLeakyReLU, fused_leaky_relu, upfirdn2d
+
 
 
 class PixelNorm(nn.Module):
@@ -19,7 +17,11 @@ class PixelNorm(nn.Module):
         super().__init__()
 
     def forward(self, input):
-        return input * torch.rsqrt(torch.mean(input ** 2, dim=1, keepdim=True) + 1e-8)
+        return input * torch.rsqrt(torch.mean(input ** 2, 
+                                              dim=1, 
+                                              keepdim=True) + 1e-8)
+
+
 
 
 def make_kernel(k):
